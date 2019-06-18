@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+	<body>
+		<img id="img" alt="">
+		<form action="http://localhost:8098/upload_images" method="POST" enctype="multipart/form-data">
+			<input id="file" type="file" name="file" />
+			<input type="submit" value="Upload" />
+		</form>
+		<script>
+			var file = document.getElementById('file')
+			var img = document.getElementById('img')
+			file.addEventListener('change', function() {
+				var obj = file.files[0]
+				var src = window.URL.createObjectURL(obj)
+				img.setAttribute('src', src);
+			})
+		</script>
+	</body>
+</html>
+
