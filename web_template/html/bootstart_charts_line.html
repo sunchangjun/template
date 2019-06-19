@@ -9,20 +9,52 @@
 		<script type="text/javascript" src="../bootstrap/bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="../bootstrap/bootstrap-table/dist/bootstrap-table.min.js" charset="UTF-8"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<script src="../js/Chart.js"></script>
+		<script src="../js/bootstart_chart.js"></script>
+		<!-- 	 <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script> -->
 	</head>
 	<body>
-		<div class="btn-group" role="group" aria-label="..." style="padding:10px 0px 0px 15px;">
-			<input id="search-beginTime" class="form-control" size="16" type="text" value="" >
-			<input id="search-endTime" class="form-control" size="16" type="text" value="" >
-			<button id="sendtable" type="button" class="btn btn-danger" onclick="sendgetstatus()">搜索</button>
 
+		<div class="btn-group" role="group" aria-label="..." style="padding:10px 0px 0px 15px;">
+			<input id="search-beginTime" class="form-control" size="16" type="text" value="">
+			<input id="search-endTime" class="form-control" size="16" type="text" value="">
+			<button id="sendtable" type="button" class="btn btn-danger" onclick="sendgetstatus()">搜索</button>
 		</div>
 
 		<table id="table"></table>
+		<div>
+			<canvas id="line-chart" height="450px" width="800px"></canvas>
+
+		</div>
+
 		<script>
-			function sendgetstatus() {
+			function sendgetstatus() {				
 				$("#table").bootstrapTable("refresh");
+				$.ajax({
+				  url: "http://localhost:8098/status/get_statistical_data",
+				  data: {
+					beginTime: $("#search-beginTime").val(),
+					endTime: $("#search-endTime").val()
+				  },
+				  success: function( result ) {
+					 console.log(result);
+					  var x_labels = []
+					  var y_labels = []
+					 var rows=result.rows;
+					 for (i=0;i<rows.length;i++){						
+						  x_labels.push(rows[i].time);
+						  y_labels.push(rows[i].newAccUser)
+						 }
+					init_chart(x_labels,y_labels);
+
+				  }
+				});
+			
 			}
+			
+		
+
 			$("#table").bootstrapTable({
 				url: "http://localhost:8098/status/get_statistical_data", //请求后台的URL（*）
 				method: 'GET', //请求方式（*）
@@ -60,9 +92,10 @@
 					};
 					return temp;
 				},
+				
 				columns: [{
 					checkbox: true,
-					visible: false //是否显示复选框  
+					visible: true //是否显示复选框  
 				}, {
 					field: 'time',
 					title: '日期',
@@ -95,8 +128,9 @@
 					field: 'vipRatio',
 					title: 'vip转换率',
 					sortable: true
-				}]
+				}],				
 			});
+	
 		</script>
 	</body>
 </html>
