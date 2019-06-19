@@ -8,16 +8,29 @@
 		<script type="text/javascript" src="../js/jquery-1.11.0.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js" charset="UTF-8"></script>
 		<script type="text/javascript" src="../bootstrap/bootstrap-table/dist/bootstrap-table.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="../js/click_images.js" charset="UTF-8"></script>
 	</head>
 	<body>
 
 		<button id="sendtable" type="button" class="btn btn-danger" onclick="sendgetstatus()">搜索</button>
 		<div class="title"><strong>数据展示</strong>
 			<table id="table"></table>
+			<!-- bootstrap图片样式模板 ******* -->
+			<div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" data-toggle="modal"
+			 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" style="display:inline-block;width:auto;">
+					<div class="modal-content">
+						<div id="imgshow"></div>
+					</div>
+				</div>
+			</div>
+			<!-- //bootstrap图片样式模板 -->
 		</div>
+
+
+
 		<script>
-			
-						$("#table").bootstrapTable({
+			$("#table").bootstrapTable({
 				url: "http://localhost:8098/file/get_images", //请求后台的URL（*）
 				method: 'GET', //请求方式（*）
 				//toolbar: '#toolbar',              //工具按钮用哪个容器
@@ -53,37 +66,56 @@
 					return temp;
 				},
 				columns: [{
-					checkbox: true,
-					visible: false //是否显示复选框  
-				}, {
-					field: 'id',
-					title: '序号',
-					sortable: true
-				}, {
-					field: 'type',
-					title: '类型',
-					sortable: true
-				}, {
-					field: 'name',
-					title: '名称',
-					sortable: true
-				}, {
-					field: 'url',
-					title: '图片',
-					sortable: true
-				}, {
-					field: 'url',
-					title: '商品图片',
-					align: 'center',
-					formatter: function(value, row, index) {
-						return '<img  src=' + "http://47.98.153.144" + value + ' width="100" height="100" class="img-rounded" >';
+						checkbox: true,
+						visible: false //是否显示复选框  
+					}, {
+						field: 'id',
+						title: '序号',
+						sortable: true
+					}, {
+						field: 'type',
+						title: '类型',
+						sortable: true
+					}, {
+						field: 'name',
+						title: '名称',
+						sortable: true
+					}, {
+						field: 'author',
+						title: '作者',
+						sortable: true
+					}, {
+						field: 'createTime',
+						title: '上传时间',
+						sortable: true
+					}, {
+						field: 'url',
+						title: '图片',
+						sortable: true
+					},
+					{
+						field: 'url',
+						title: '商品图片',
+						align: 'center',
+						formatter: function(value, row, index) {
+							return '<img  src=' + "http://47.98.153.144" + value +
+								' width="100" height="100" class="img-rounded" onclick="showMaxImg(this)">';
+						}
 					}
-				}]
+				]
 			});
-			
-			
+
+
+
 			function sendgetstatus() {
 				$("#table").bootstrapTable("refresh");
+			}
+
+			function showMaxImg(obj) {
+				var src = $(obj).attr("src");
+				$("#imgModal").find("#imgshow").html("<img src='" + src +
+					"' class='carousel-inner img-responsive img-rounded' data-dismiss='modal'>");
+				$("#imgModal").modal('show');
 			}
 		</script>
 	</body>
