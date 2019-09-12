@@ -29,31 +29,41 @@
 		</div>
 
 		<script>
-			function sendgetstatus() {				
+			function sendgetstatus() {
 				$("#table").bootstrapTable("refresh");
 				$.ajax({
-				  url: "http://localhost:8098/status/get_statistical_data",
-				  data: {
-					beginTime: $("#search-beginTime").val(),
-					endTime: $("#search-endTime").val()
-				  },
-				  success: function( result ) {
-					 console.log(result);
-					  var x_labels = []
-					  var y_labels = []
-					 var rows=result.rows;
-					 for (i=0;i<rows.length;i++){						
-						  x_labels.push(rows[i].time);
-						  y_labels.push(rows[i].newAccUser)
-						 }
-					init_chart(x_labels,y_labels);
+					url: "http://localhost:8098/status/get_statistical_data",
+					data: {
+						beginTime: $("#search-beginTime").val(),
+						endTime: $("#search-endTime").val()
+					},
+					success: function(result) {
+						console.log(result);
+						var x_labels = []
+						var y_labels = []
+						var rows = result.rows;
 
-				  }
+						for (i = 0; i < rows.length; i++) {
+							x_labels.push(rows[i].time);
+							y_labels.push(rows[i].egData[0])
+						}
+						var param = {};
+						// rows.each(function() {
+						// 	var id = this.id;
+						// 	var name = this.name;
+						// 	var val = $("#" + id).val();
+						// 	//动态添加属性、赋值
+						// 	eval("param." + name + "=" + val)
+						// }
+
+						init_chart(x_labels, y_labels);
+
+					}
 				});
-			
+
 			}
-			
-		
+
+
 
 			$("#table").bootstrapTable({
 				url: "http://localhost:8098/status/get_statistical_data", //请求后台的URL（*）
@@ -92,7 +102,7 @@
 					};
 					return temp;
 				},
-				
+
 				columns: [{
 					checkbox: true,
 					visible: true //是否显示复选框  
@@ -128,9 +138,8 @@
 					field: 'vipRatio',
 					title: 'vip转换率',
 					sortable: true
-				}],				
+				}],
 			});
-	
 		</script>
 	</body>
 </html>
