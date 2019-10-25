@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QQ音乐后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+    <script type="text/javascript" src="../static/js/jquery-1.7.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+</head>
+<div th:text="测试页面" id="control" style="visibility: hidden"></div>
+<body th:title="${type}" class="easyui-layout" style="overflow: hidden;" fit="true">
+<!-- 头部 -->
+<div data-th-data-options="|region:'north',border:false,title:'媒体列表'|" style="height: 100%;width: 100%;">
+    <div id="wu-toolbar">
+        <div class="wu-toolbar-button">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-arrow-down"
+               onclick="globalDeline('#program-table')" plain="true">下线</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-arrow-up"
+               onclick="globalOnline('#program-table')" plain="true">上线</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-control-fastforward-blue"
+               onclick="groupSubmit('#program-table')" plain="true">批量提交</a>
+        </div>
+        <div>
+            资源名称: <input id="sname" class="easyui-textbox" style="width:120px">
+            <!--    歌手名: <input id="singername" class="easyui-textbox" style="width:120px">-->
+            提交状态:
+            <select id="ssubmit" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="">全部</option>
+                <option value="0">未提交</option>
+                <option value="1">已提交</option>
+            </select>
+            全局状态:
+            <select id="sglobal" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="">全部</option>
+                <option value="1">禁用</option>
+                <option value="0">启用</option>
+            </select>
+            资源类型:
+            <select id="sfreeFlag" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="">全部</option>
+                <option value="1">免费</option>
+                <option value="0">收费</option>
+            </select>
+
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchProgram()">搜索</a>
+        </div>
+    </div>
+
+    <table id="program-table" class="easyui-datagrid" style="height:100%;width:100%;" toolbar="#wu-toolbar">
+    </table>
+</div>
+<!--修改-->
+<div id="dlg" style="padding:10px;height:300px;width:500px;" class="easyui-dialog">
+    <form id="editorform" method="post" class="detail-form" enctype="multipart/form-data">
+        <div style="text-align: center">
+            <img id="sourceImg" style=" width:100px;height:100px;border:1px solid black;display: inline-block"/><br/>
+            <a href="javascript:void(0);" class="my-btn-hindden  bposter">
+                点击选择<input type="file" onchange="filechange(event,'sourceImg');" name="iptvBigPoster"/>
+            </a>
+        </div>
+        <div>
+            <label for="name">资源名:</label>
+            <input class="easyui-validatebox" id="rid" type="text" name="rid" hidden/>
+            <input class="easyui-validatebox" id="vid" type="text" name="vid" hidden/>
+            <input class="easyui-validatebox" id="name" type="text" name="name" data-options="required:true"/>
+        </div>
+        <div>
+            <label for="keyword">关键字:</label>
+            <input class="easyui-validatebox" type="text" id="keyword" name="keyword" data-options="required:true"/>
+            <input class="easyui-validatebox" type="text" hidden name="bposter"/>
+        </div>
+        <div>
+            <label for="sort">排&nbsp;&nbsp;序:</label>
+            <input class="easyui-validatebox" type="text" id="sort" name="sort" data-options="required:true"/>
+        </div>
+
+    </form>
+</div>
+<!--图片对话框-->
+<div id="img-dialog" class="easyui-dialog " data-options="closed:true,iconCls:'icon-save'"
+     style="width:313px; height: 340px">
+    <img style="width: 299px; height:296px" src="" id="bigImg"/>
+</div>
+
+<div id="detail" class="easyui-dialog" title="详情页面"  data-options="closed:true">
+    <table border="1 solid" cellspacing="0" style="width:400px;height:200px;text-alig:center">
+        <tr>
+            <td><label>ID:</label></td><td id="ids"></td>
+        </tr>
+        <tr>
+            <td><label>资源名称:</label></td><td id="names"></td>
+        </tr>
+        <tr>
+            <td><label>歌手:</label></td><td id="singer_name"></td>
+        </tr>
+
+    </table>
+</div>
+
+<script type="text/javascript">
+    var ctxPath = /*[[@{/}]]*/ '';
+
+
+
+    function update(rowIndex){
+        var rows= $("#program-table").datagrid('getRows');//得到所有的行，是一个数组
+        console.log("修改单行数据"+JSON.stringify(rows));
+        // $('#detail').dialog('open');
+        // $('#detail').dialog('load',rows[1]);
+
+        $('#detail').dialog({
+            title: '详情',
+            width: 400,
+            height: 200,
+            closed: false,
+            cache: false,
+            href: 'http://127.0.0.1:8100/sun/listData',
+            modal: true ,
+            queryParams: {
+                // type: $("body").attr("title")
+                type: 'song'
+
+            }
+        });
+        $('#dd').dialog('refresh', 'new_content.php');
+
+    }
+
+    function findone(rowIndex){
+        var list= $("#program-table").datagrid('getRows');//得到所有的行，是一个数组
+        var rows=list[rowIndex];
+
+        // var rows = $('#program-table').datagrid('getSelected');
+         console.log("查询单行数据"+JSON.stringify(rows));
+
+        // $('#detail').dialog('open');
+        if (rows) {
+            $('#detail').dialog('open');
+            console.log($('#detail').dialog("options"))  ;
+            document.getElementById("ids").innerHTML=rows.rid;
+            document.getElementById("names").innerHTML=rows.name;
+            document.getElementById("singer_name").innerHTML=rows.singer_name;
+
+        }
+        // $('#program-table').datagrid('clearSelections');
+
+    }
+
+
+    //判断启用禁用
+    function formatStatus(value, data, index) {
+        if (value == 0) {
+            return "<span style='color:mediumblue'>启用</span>";
+        }
+        return "<span style='color:red'>禁用</span>";
+    }
+
+    //搜索
+    function searchProgram() {
+        var queryParams = $("#program-table").datagrid('options').queryParams;
+        queryParams.name = $('#sname').val();
+        queryParams.singername = $('#singername').val();
+        queryParams.submit = $('#ssubmit').val();
+        queryParams.globalstatus = $('#sglobal').val();
+        queryParams.free = $('#sfreeFlag').val();
+        $("#program-table").datagrid("reload");
+    }
+
+    //点击显示图片
+    function showImg(url) {
+        $("#bigImg").attr("src", url);
+        $("#img-dialog").dialog('open');
+    }
+
+    /**
+     * 媒资编辑
+     */
+    $('#dlg').dialog({
+        title: '编辑',
+        width: 280,
+        height: 360,
+        closed: true,
+        iconCls: 'icon-save',
+        buttons: [{
+            text: '保存',
+            iconCls: 'icon-ok',
+            handler: function () {
+                $.messager.confirm('确认提交111', '提交会产生新的版本，您确认要提交该数据么?', function (r) {
+                    if (r) {
+                        //表单提交
+                        $('#editorform').form('submit', {
+                            url: "editorProgram",
+                            success: function (data) {
+                                // data = eval('(' + data + ')');
+                                data = JSON.stringify(data);
+                                if (data.success) {
+                                    $.messager.alert("消息提示", "修改成功");
+                                    $("#dlg").dialog("close");
+                                    $("#program-table").datagrid('reload');
+                                } else {
+                                    $.messager.alert("消息提示", data.msg);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }]
+    });
+
+
+    function ajaxLoading() {
+        top.$("<div class=\"datagrid-mask\"></div>").css({
+            display: "block",
+            width: "100%",
+            height: $(window).height()
+        }).appendTo(top.$("body"));
+        top.$("<div class=\"datagrid-mask-msg\"></div>").html("正在处理，请稍候。。。").appendTo(top.$("body")).css({
+            display: "block",
+            left: (top.$(document.body).outerWidth(true) - 190) / 2,
+            top: (top.$(window).height() - 45) / 2 + 3
+        });
+    }
+
+    //修改付费状态
+    function changefreeStatus(rid, free) {
+        var msg = "您确认要将资源id为<span style='color:red'>" + rid + "</span>的媒资置为";
+        if (free == 1) {
+            msg += "收费么?";
+        } else {
+            free = 0;
+            msg += "免费么";
+        }
+        $.messager.confirm('收费状态修改', msg, function (r) {
+            console.log("r判断:" + r)
+            // ajaxLoading();
+            if (r) {
+                $.ajax({
+                    url: "editorResfreeStatus",
+                    type: "post",
+                    data: {
+                        rid: rid,
+                        free: free
+                    },
+                    success: function (data) {
+                        // ajaxLoadEnd();
+                        var obj = JSON.stringify(data);
+                        console.log("请求editorResfreeStatus返回结果" + obj)
+
+                        if (data.success) {
+                            $.messager.alert("消息提示", "操作成功");
+                            $("#program-table").datagrid("reload");
+                        } else {
+                            $.messager.alert("消息提示", "操作失败");
+                        }
+                    }
+                });
+            } else {
+                ajaxLoadEnd();
+            }
+        });
+    }
+
+
+    $(function () {
+        var columns = [];
+        var feild = [
+            {field: 'ck', checkbox: true},
+            {field: 'rid', title: 'ID', width: 50},
+            {field: 'name', title: '资源名称', width: 150},
+            {field: 'keyword', title: '关键字', width: 150},
+            {field: 'singer_name', title: '歌手', width: 100},
+            {field: 'iptv_code1', title: 'iptvCode1', width: 100, align: 'center'},
+            {field: 'bposter', title: '海报', width: 50, align: 'center', formatter: formatImg},
+            {field: 'prod_vid', title: '正式', width: 50, align: 'center'},
+            {field: 'test_vid', title: '测试', width: 50, align: 'center'},
+            {
+                field: 'free', title: '免费', width: 50, align: 'center', formatter: function (val) {
+                    if (val == 1) {
+                        return "<span style='color:green'>是</span>"
+                    }
+                    return "<span style='color:red'>否</span>"
+                }
+            },
+            {field: 'global_disable', title: '全局状态', width: 100, align: 'center', formatter: formatStatus},
+            {
+                field: 'dd', title: '操作', width: 200, align: 'center', formatter: formatSubmit
+            }, {
+                field: 'xx', title: 'update', width: 200, align: 'center', formatter: function(value,rowData,rowIndex){
+                    return '<button onclick="findone('+rowIndex+');">查看详情</button>'+'<button onclick="update('+rowIndex+');">编辑</button>';
+                }
+            }
+
+        ];
+
+
+        //加载表头标题
+        columns.push(feild);
+        //请求后台数据,加载列
+        $("#program-table").datagrid({
+            url: 'http://127.0.0.1:8100/sun/listData',
+            collapsible: true,
+            singleSelect: true,
+            selectOnCheck: false,
+            loadMsg: false,
+            method: 'get',
+            pagination: true,
+            pageSize: 20,
+            pageList: [20, 50, 100],
+            columns: columns,
+            rowStyler: function (index, row) {
+                return "backgroud:red";
+            },
+            queryParams: {
+                // type: $("body").attr("title")
+                type: 'song'
+            }
+        });
+
+    })
+
+
+</script>
+
+</body>
+</html>

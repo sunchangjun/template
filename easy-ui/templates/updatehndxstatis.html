@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QQ音乐后台管理系统</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+    <script type="text/javascript" src="../static/js/jquery-1.7.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/datagrid-scrollview.js"></script>
+</head>
+<body th:title="${type}" class="easyui-layout" style="overflow: hidden;" fit="true">
+<!-- 头部 -->
+<div data-th-data-options="|region:'north',border:false,title:'媒体列表'|" style="height: 100%;width: 100%;">
+    <div id="wu-toolbar">
+        <div>
+            开始时间: <input id="start"  type="text"  required="required" style="width:120px">
+            结束时间: <input id="end" type="text" required="required" style="width:120px">
+            选择文件:<input  id='upfile' name="upfile"  type="file"  data-options="buttonText:'上传文件',buttonAlign:'left'"  style="width:150px">
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchData()">搜索</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="exportData()">导出</a>
+        </div>
+    </div>
+
+    <table id="program-table" class="easyui-datagrid" style="height:100%;width:100%;"  toolbar="#toolbar">
+
+    </table>
+    <div id="toolbar">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+    </div>
+    <div id="dlg" class="easyui-dialog" style="width:400px;height:280px;padding:10px 20px"
+         closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">User Information</div>
+        <form id="fm" method="post">
+            <div class="fitem">
+                <label>First Name:</label>
+                <input name="firstname" class="easyui-validatebox" required="true">
+            </div>
+            <div class="fitem">
+                <label>Last Name:</label>
+                <input name="lastname" class="easyui-validatebox" required="true">
+            </div>
+            <div class="fitem">
+                <label>Phone:</label>
+                <input name="phone">
+            </div>
+            <div class="fitem">
+                <label>Email:</label>
+                <input name="email" class="easyui-validatebox" validType="email">
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+    </div>
+</div>
+
+</div>
+
+<iframe id="download" src="" style="display: none;">
+
+</iframe>
+
+<script>
+
+    function newUser(){
+        $('#dlg').dialog('open').dialog('setTitle','添加用户');
+        $('#fm').form('clear');
+        url = 'save_user.php';
+    }
+
+    function editUser(){
+        // var list= $("#program-table").datagrid('getRows');//得到所有的行，是一个数组
+        // var rows=list[rowIndex];
+        // console.log(JSON.stringify(rows));
+        $('#dlg').dialog('open').dialog('setTitle','修改表格');
+    }
+
+    $(function () {
+
+
+        $('#start').datebox({
+            onSelect: function(date){
+                //alert(date.getFullYear()+":"+(date.getMonth()+1)+":"+date.getDate());
+            },
+            formatter : function(date){
+                var y = date.getFullYear();
+                var m = date.getMonth()+1;
+                var d = date.getDate();
+                return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+            },
+            parser : function(s){
+                var t = Date.parse(s);
+                if (!isNaN(t)){
+                    return new Date(t);
+                } else {
+                    return new Date();
+                }
+            }
+
+        });
+
+        $('#end').datebox({
+            onSelect: function(date){
+                //alert(date.getFullYear()+":"+(date.getMonth()+1)+":"+date.getDate());
+            },
+            formatter : function(date){
+                var y = date.getFullYear();
+                var m = date.getMonth()+1;
+                var d = date.getDate();
+                return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+            }, parser : function(s){
+                var t = Date.parse(s);
+                if (!isNaN(t)){
+                    return new Date(t);
+                } else {
+                    return new Date();
+                }
+            }
+        });
+
+        $("#program-table").datagrid({
+            url: 'http://127.0.0.1:8100/sun/getOrderResultTable',
+            collapsible: true,
+            singleSelect: true,
+            selectOnCheck: false,
+            loadMsg: false,
+            method: 'post',
+            // pagination: true,
+            view:scrollview,
+            pageSize: 5,
+            // pageList: [31, 62, 100],
+            frozenColumns:[[
+            ]],
+            columns: [[
+                { field:'ck', checkbox:false},
+                {field: 'time', title: '时间', width: 100},
+                {field: 'week', title: '星期', width: 100},
+                {field: 'codeNull', title: '创建订单,未发起订购', width: 100},
+                {field: 'code9101', title: '机顶盒开机时间过长', width: 150, align: 'center'},
+                {field: 'code9102', title: '用户欠费停机', width: 100, align: 'center'},
+                {field: 'code9304', title: '已定购该产品', width: 100, align: 'center'},
+                {field: 'code9305', title: '当月消费限额不足', width: 100, align: 'center'},
+                {field: 'code9602', title: '参数错误：参数不合法', width: 100, align: 'center'},
+                {field: 'code9681', title: '放弃订购、用户主动取消', width: 100, align: 'center'},
+                {field: 'code9999', title: '平台异常', width: 100, align: 'center'},
+                {field: 'other', title: '其他状态', width: 100, align: 'center'},
+                {field: 'codeSuccess', title: '订购成功', width: 100,sortable:true},
+                {field: 'total', title: '合计', width: 100, align: 'center'},
+                {field: 'distinct_user', title: '当日参与用户(去重)', width: 100, align: 'center'},
+            ]],
+            rowStyler: function (index, row) {
+                if(row.codeSuccess>10){
+                    return 'background-color:pink;color:blue;font-weight:bold;';
+                }
+            },
+            queryParams: {
+                endTime: $('#end').datebox('getValue'),
+                beginTime: $('#start').datebox('getValue')
+            }
+        });
+    })
+
+
+    function searchData() {
+        var formData = new FormData();
+        formData.append("beginTime", $('#start').datebox('getValue'));
+        formData.append('endTime',$('#end').datebox('getValue'));
+        formData.append("file", $("#upfile")[0].files[0]);
+        $.ajax({
+            url: "http://127.0.0.1:8100/sun/getOrderResultTable",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response){
+                $("#program-table").datagrid("loadData", response.rows);
+            },
+            error: function (data){
+                console.log(data);
+            }
+        });
+    }
+
+
+
+
+
+    function exportData() {
+
+
+
+        // var endTime = $('#end').datebox('getValue');
+        // var beginTime = $('#start').datebox('getValue');
+        // var datetime = new Date().getTime();
+        // var url = "exportGetOrderResultTable?beginTime=" + beginTime + "&endTime=" + endTime + "&timestamp=" + datetime;
+        // $("#download").attr("src", url);
+    }
+
+</script>
+</body>
+</html>

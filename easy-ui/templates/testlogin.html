@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试登录页面</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.js"></script>
+    <style>
+        /*.center {*/
+        /*    width: 200px;*/
+        /*    height: 200px;*/
+        /*    background: yellow;*/
+        /*    position: relative;*/
+        /*}*/
+        /*.center_text  {*/
+        /*    width: 100px;*/
+        /*    height: 100px;*/
+        /*    background: green;*/
+        /*    margin: auto;*/
+        /*    position: absolute;*/
+        /*    left: 0;*/
+        /*    right: 0;*/
+        /*    top: 0;*/
+        /*    bottom: 0;*/
+        /*}*/
+        .center {
+            position: relative;
+            width: 100%;
+            height: 1000px;
+        }
+
+        .center_text {
+            position: absolute;
+            background: green;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+
+        }
+    </style>
+</head>
+<body>
+<div class="center">
+    　　
+    <div class="center_text">
+        　　　账号:<input type="text" id ="username" placeholder="请输入账号"><br/>
+             密码:<input type="password" id ="password"  placeholder="请输入密码"><br/>
+        <button type="button" onclick="login()">登录</button>
+    </div>
+    <div class="easyui-dialog" style="width:400px;height:200px"
+         data-options="
+        title:'My Dialog',
+        iconCls:'icon-ok',
+        onOpen:function(){}">
+        dialog content.
+    </div>
+</div>
+<script>
+    function login(){
+        var username=document.getElementById("username").value;
+        var password=document.getElementById("password").value;
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:9999/login",
+            data: {
+                userName: username,
+                password:password
+            },
+            success: function( result ) {
+                if(result.success){
+                    // location.href="https://"+result.data;
+                    window.location.href="console/index";
+                }else{
+                    alert("sssssss");
+                }
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>

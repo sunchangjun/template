@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Complex Layout - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.easyui.min.js"></script>
+</head>
+
+<body>
+<h2>Complex Layout</h2>
+<p>This sample shows how to create a complex layout.</p>
+<div style="margin:20px 0;"></div>
+<div class="easyui-layout" style="width:100%;height:750px;">
+    <div data-options="region:'north'" style="height:50px"></div>
+    <div data-options="region:'south',split:true" style="height:50px;"></div>
+    <div data-options="region:'east',split:true" title="East" style="width:180px;">
+        <ul class="easyui-tree" data-options="url:'tree_data1.json',method:'get',animate:true,dnd:true"></ul>
+    </div>
+    <div data-options="region:'west',split:true" title="导航栏" style="width:15%;padding:10px">
+        <div class="easyui-accordion" data-options="fit:true,border:false">
+            <div th:each="prod : ${privileges}" th:title="${prod.name}" data-options="iconCls:'${prod.icon}'" style="padding:5px;" th:class="|prod${prod.url}|">
+                <ul th:class="|wu-side-tree ${prod.url}tree|">
+                    <li th:each="c : ${prod.childs}" th:iconCls="${c.icon}"><a href="javascript:void(0)" data-th-data-icon="${c.icon}" data-th-data-link="${c.url}" iframe="0" th:text="${c.name}"></a></li>
+                </ul>
+            </div>
+            <div title="功能一" style="padding:10px;">
+                content1
+            </div>
+            <div title="功能二" data-options="selected:true" style="padding:10px;">
+                content2
+            </div>
+            <div title="功能三" style="padding:10px">
+                content3
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'内容区',iconCls:'icon-ok'">
+        <div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+            <div title="页面一" data-options="href:'_content.html'" style="padding:10px">
+
+            </div>
+            <div title="页面二" style="padding:5px">
+                <table class="easyui-datagrid"
+                       data-options="url:'datagrid_data1.json',method:'get',singleSelect:true,fit:true,fitColumns:true">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'itemid'" width="80">Item ID</th>
+                        <th data-options="field:'productid'" width="100">Product ID</th>
+                        <th data-options="field:'listprice',align:'right'" width="80">List Price</th>
+                        <th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
+                        <th data-options="field:'attr1'" width="150">Attribute</th>
+                        <th data-options="field:'status',align:'center'" width="50">Status</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

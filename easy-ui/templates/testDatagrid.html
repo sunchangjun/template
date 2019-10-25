@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试网格</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.easyui.min.js"></script>
+</head>
+<body>
+<dev>
+    <table class="easyui-datagrid" style="width:400px;height:250px"
+           data-options="url:'datagrid_data.json',fitColumns:true,singleSelect:true">
+        <thead>
+        <tr>
+            <th data-options="field:'code',width:100">Code</th>
+            <th data-options="field:'name',width:100">Name</th>
+            <th data-options="field:'price',width:100,align:'right'">Price</th>
+        </tr>
+        </thead>
+    </table>
+
+        <table id ="dg" class="easyui-datagrid" style="width:400px;height:250px"
+               data-options="url:'datagrid_data.json',fitColumns:true,singleSelect:true">
+
+        </table>
+        </tbody>
+
+</dev>
+
+<script type="text/javascript">
+
+    $(function () {
+        console.log("到此一游41");
+        $('#dg').datagrid({
+
+            url: 'datagrid_data.json',
+            columns: [[
+                {field: 'code', title: 'Code', width: 100},
+                {field: 'name', title: 'Name', width: 100},
+                {field: 'price', title: 'Price', width: 100, align: 'right'}
+            ]]
+        });
+
+        $('#dg').datagrid({
+            data: [
+                {code:'value11', name:'value12'},
+                {code:'value21', name:'value22'}
+            ]
+        });
+    })
+</script>
+
+</body>
+</html>
