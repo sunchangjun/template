@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>easy_ui行内编辑</title>
+    <link rel="import" href="http://localhost:63343/web_template/easy-ui/templates/base/basehead.html">
+</head>
+<body>
+
+<table id="tt"  style="width:1000px;height:600px" title="Editable DataGrid" singleSelect="true">
+</table>
+
+<script type="text/javascript">
+
+    $.extend($.fn.validatebox.defaults.rules, {
+        money: {
+            validator: function(value, param){//value 为输入框的值，param为传入的对比标准
+                console.log(JSON.stringify(value+" "+param));
+                var regu = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
+                var re = new RegExp(regu);
+                if (re.test(value)) {
+                    return true;
+                }else{
+                    return false;
+                }
+
+            },
+            message: '请输入正确的日期'
+        }
+    });
+
+    //定义被编辑的行号
+    var rowNumber = 0;
+    $('#tt').datagrid({
+        title: 'Editable DataGrid',
+        iconCls: 'icon-edit',
+        width: 1500,
+        height: 700,
+        singleSelect: true,
+        idField: 'itemid',
+        url: 'http://127.0.0.1:8100/sun/findAllIptvConfig',
+        columns: [[
+            {field: 'ck', checkbox: false},
+            {field: 'id', title: 'id', width: 200},
+            {field: 'key', title: 'key', width: 400, editor: 'text'},
+            {field: 'value', title: 'value', width: 400, editor: 'text'},
+            {field: 'data', title: 'value', width: 400,editor:{
+                    type:'validatebox',
+                    options:{
+                        required:true,
+                        validType:'money'
+                    }
+                }}
+        ]],
+        toolbar:
+            [{
+                text: '添加数据',
+                iconCls: 'icon-add',
+                handler: function () {
+                    $("#tt").datagrid("insertRow", {
+                        index: 0,
+                        row: {}
+                    });
+                    $("#tt").datagrid("beginEdit", 0);
+                }
+            },
+                {
+                    text: '编辑数据',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        var hasSelect = $("#tt").datagrid("getSelections");
+                        if (hasSelect.length == 1) {
+                            //alert(hasSelect[0].name);
+                            var row = hasSelect[0];
+                            rowNumber = $("#tt").datagrid("getRowIndex", row);
+                            $("#tt").datagrid("beginEdit", rowNumber);
+                        }
+                    }
+                },
+                {
+                    text: '保存修改',
+                    iconCls: 'icon-save',
+                    handler: function () {
+                        $("#tt").datagrid("endEdit", rowNumber);
+                    }
+                }, {
+                text: '取消编辑',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#tt").datagrid("cancelEdit", rowNumber);
+                }
+            },{
+                text: '删除',
+                iconCls: 'icon-no',
+                handler: function () {
+                    var hasSelect = $("#tt").datagrid("getSelections");
+                    if (hasSelect.length == 1) {
+                        var row = hasSelect[0];
+                        rowNumber = $("#tt").datagrid("getRowIndex", row);
+                        deleteRow(hasSelect);
+                        $("#tt").datagrid("deleteRow", rowNumber);
+
+                    }
+                }
+            }
+            ],
+        pagination: true,
+        onAfterEdit: function (index, data, changes) {
+            console.log(JSON.stringify(data));
+            var url="http://127.0.0.1:8100/sun/saveIptvConfig";
+            $.post(url,data,function(resultJSONObject){
+                if(resultJSONObject.success){
+                    $.messager.alert("系统提示","添加成功","info");
+                }else{
+                    $.messager.alert("系统提示","添加失败","error");
+                }
+            },"json");
+        }
+
+    });
+
+    function deleteRow(data){
+        console.log(JSON.stringify(data));
+        var urldata={"id":data.id};
+        var url="http://127.0.0.1:8100/sun/deleteIptvConfig";
+        $.post(url,urldata,function(resultJSONObject){
+            if(resultJSONObject.success){
+                $.messager.alert("系统提示","添加成功","info");
+            }else{
+                $.messager.alert("系统提示","添加失败","error");
+            }
+        },"json");
+    }
+
+</script>
+
+</body>
+</html>
