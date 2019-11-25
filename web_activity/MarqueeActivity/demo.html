@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Get your weapon!</title>
+
+<link type="text/css" href="css/style.css" rel="stylesheet" />
+
+</head>
+<body>
+
+	<div class="header">
+		<h1>CS:GO伽马武器箱</h1>
+	</div>
+	<div class="container">
+		<div class="tag"><div class="gun_tag_red"><h6>隐秘</h6></div><div class="gun_name red"><h5>M4A1-S<br>机械工业</h5></div><img src="img/M4A1_S.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_red"><h6>隐秘</h6></div><div class="gun_name red"><h5>Glock-18<br>荒野反叛</h5></div><img src="img/Glock_18.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_pink"><h6>保密</h6></div><div class="gun_name pink"><h5>SCAR-20<br>血腥运动</h5></div><img src="img/SCAR_20.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_pink"><h6>保密</h6></div><div class="gun_name pink"><h5>P2000<br>至尊威龙</h5></div><img src="img/P2000.png" alt=""></div>
+<!--		<div class="tag"><div class="gun_tag_pink"><h6>保密</h6></div><div class="gun_name pink"><h5>M4A4<br>死寂空间</h5></div><img src="img/M4A4.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_purple"><h6>受限</h6></div><div class="gun_name purple"><h5>Sawed-Off<br>聚光灯</h5></div><img src="img/Sawed_Off.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_purple"><h6>受限</h6></div><div class="gun_name purple"><h5>R8-Revolver<br>重新启动</h5></div><img src="img/R8_Revolver.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_purple"><h6>受限</h6></div><div class="gun_name purple"><h5>P90<br>夺命器</h5></div><img src="img/P90.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_purple"><h6>受限</h6></div><div class="gun_name purple"><h5>AWP<br>火卫一</h5></div><img src="img/AWP.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_purple"><h6>受限</h6></div><div class="gun_name purple"><h5>MAC<br>CHILI</h5></div><img src="img/AUG.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>Tec-9<br>冰冠</h5></div><img src="img/Tec_9.png" alt=""></div>-->
+<!--		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>SG-553<br>轻空</h5></div><img src="img/SG_553.png" alt=""></div>-->
+		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>PP-Bizon<br>收割机</h5></div><img src="img/PP_Bizon1.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>Nova<br>Exo</h5></div><img src="img/NOVA.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>MAC-10<br>捕猎者</h5></div><img src="img/MAC_10.png" alt=""></div>
+		<div class="tag"><div class="gun_tag_blue"><h6>军舰</h6></div><div class="gun_name blue"><h5>Five-Seven<br>霸意大名</h5></div><img src="img/Five_Seven.png" alt=""></div>
+	</div>
+	<div id="btn"><h4>开启</h4></div>
+	<div class="prize">
+		<h2>恭喜你获得了:</h2>
+		<div class = "btn">确定</div>
+	</div>
+	<script type="text/javascript">
+		var tag = document.querySelectorAll(".tag");
+		var i = Math.round(Math.random()*tag.length);
+		console.log("i:" +i);
+		document.querySelector("#btn").onclick = function(){
+			var count = 1;
+			var goround = setInterval(pick, count);
+			document.querySelector("#btn").style.pointerEvents = "none";
+			function pick(){
+				count +=5;
+				clearInterval(goround)
+				console.log(count);
+				console.log("i: "+i);
+				var number=Math.round(Math.random()*100+300);
+				console.log("number: "+number);
+				i = i%tag.length;
+				if(i == 0 ){
+					tag[i].style.border = "1px solid yellow";
+					tag[tag.length-1].style.border = "1px solid #454545";
+					i++;
+				}else{
+					tag[i].style.border = "1px solid yellow";
+					tag[i-1].style.border = "1px solid #454545";
+					i++;
+				}
+				if( count < number ){
+					goround = setInterval(pick, count);
+					console.log("goround: "+goround);
+				} else{
+					tag[i].style.border = "1px solid yellow";
+					tag[i-1].style.border = "1px solid #454545";
+					var text = tag[i].cloneNode(true);
+					document.querySelector(".prize").appendChild(text);
+					document.querySelector(".prize").style.visibility = "visible";
+					document.querySelector("#btn").style.pointerEvents = "auto";
+				}
+
+			}
+		}
+
+		document.querySelector(".btn").onclick = function(){
+			document.querySelector(".prize").style.visibility = "hidden";
+		}
+</script>
+	
+</body>
+</html>

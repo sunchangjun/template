@@ -1,0 +1,102 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑"}
+a{text-decoration:none;transition:all .3s ease-in;background-color:transparent;color:#777}
+a:hover{color:#2B2F3D}
+ul{list-style:none}
+img{vertical-align:middle;max-width:100%;height:auto;border:none}
+.banner-top.index{position:relative;height:620px}
+.container{width:1200px!important;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto;z-index:10;position:relative}
+.container:after{content:'';display:block;height:0;clear:both;visibility:hidden}
+.row{margin-right:-15px;margin-left:-15px}
+header{z-index:1000;position:relative;background:0 0}
+.topnav{position:relative;z-index:1001;margin-bottom:0;background:rgba(255,255,255,.05);padding:3px 0;box-sizing:content-box}
+.topnav .navbar{min-height:30px;background-color:transparent}
+.navbar-nav{font-size:14px}
+.topnav .navbar .navbar-nav>li{color:#FFF;line-height:30px;padding:1px 10px}
+.navbar-nav>li{float:left}
+.topnav .navbar .navbar-nav>li>a{color:#fff!important;padding:0;position:relative;line-height:32px;height:32px;font-size:14px}
+.hot-yhcx{color:#fff!important;font-size:14px!important;margin-top:-3px}
+.topnav .navbar .navbar-nav>li .fa{color:#FC0;margin-right:5px;font-size:1.2em;font-weight:600;vertical-align:middle}
+header .navbar .navbar-nav>li:last-child{margin-right:0}
+.navbar-left{float:left!important}
+.navbar-right{float:right!important}
+.caret{display:inline-block;width:0;height:0;margin-left:2px;vertical-align:middle;border-top:4px dashed;border-right:4px solid transparent;border-left:4px solid transparent}
+.lang-style .dropdown-menu{position:absolute;box-shadow:none!important;border-radius:3px!important;background:#fff;padding:10px 0;min-width:110px!important}
+.lang-style .dropdown-menu .caret1{position:absolute;margin-top:-16px;margin-left:47px;border-bottom:8px dashed;border-right:8px solid transparent;border-left:8px solid transparent;border-top:0!important}
+.dropdown-menu>li>a{display:block;padding:3px 20px;clear:both;font-weight:400;line-height:1.42857143;color:#333;white-space:nowrap}
+.dropdown-menu>li>a:hover{color:#0153DF}
+header.fixed{z-index:1001;position:fixed;width:100%;top:0;background:linear-gradient(45deg,#10559e 3%,#1e88e5 55%,#40baf5 91%);padding:8px 0}
+header.fixed .navbar .navbar-header{margin-top:5px}
+header.fixed .navbar .navbar-brand{width:195px;height:50px;background-size:150px 50px}
+header.fixed .navbar .navbar-nav>li>a{line-height:50px}
+header.fixed .navbar .navbar-nav>li>a.login{margin-top:11px}
+header .navbar{margin:0;border:0 none;background-color:transparent;position:relative;min-height:50px;border-radius:4px}
+.navbar-right{float:right!important;margin-right:-15px}
+.navbar-left{float:left!important}
+header .navbar .navbar-header{margin-top:9px;display:block;float:left}
+header .navbar .navbar-brand{display:inline-block;padding:0;height:65px;width:165px;background:url(../images/logo.png) no-repeat;background-size:100%;text-indent:-999em}
+.header .topnav .navbar .navbar-nav{margin-left:0}
+header .navbar .navbar-nav{margin-left:116px}
+header .navbar .navbar-nav>li:last-child{margin-right:0}
+header .navbar .navbar-nav>li>a{color:#FFF;font-size:16px;line-height:70px;padding:5px 20px;position:relative;text-transform:uppercase}
+header .navbar .navbar-nav>.active>a,header .navbar .navbar-nav>.active>a:focus,header .navbar .navbar-nav>.active>a:hover,header .navbar .navbar-nav>li>a:focus,header .navbar .navbar-nav>li>a:hover{color:#FFF}
+header .navbar .navbar-nav>li>a.login{padding:7px 18px;line-height:20px;margin-top:21px;margin-right:15px;border-color:rgba(255,255,255,.2);border-style:solid;border-width:1px;color:#FFF;font-size:16px;position:relative;display:block;border-radius:4px}
+.col-xs-12{width:100%;float:left;position:relative}
+.p-r-0{padding-right:0!important}
+.p-r-0{padding-right:0!important}
+.p-l-0{padding-left:0!important}
+header .navbar .navbar-nav>li>a.login:hover{box-shadow:inset 0 0 0 2px #FC0;background-color:transparent}
+.top-menu-header{background:#202124!important;border-bottom:1px rgba(255,255,255,.2) solid;opacity:.95}
+.subnav{position:absolute;z-index:1001;top:114px;left:0;width:100%;background-color:#202124;opacity:.95}
+.subnav.fixed{top:71px;position:fixed}
+.subnav .sub-nav{background-color:#202124;opacity:.95}
+.subnav .sub-nav:after{content:'';clear:both}
+.col-sm-12{width:100%}
+.sub-nav dl{margin:20px 70px 20px 0;float:left}
+.sub-nav dl .col-xs-6{width:50%;float:left}
+.sub-nav dt,.sub-nav dt a{color:#FFF;font-size:14px;line-height:30px;padding-bottom:10px;margin-top:20px;font-weight:400}
+.sub-nav dd{line-height:30px;position:relative}
+.sub-nav dd .hot{background-image:url(../images/nav-hot.png);margin-left:5px;margin-top:10px;width:28px;height:11px;text-indent:-999em;display:block;float:right}
+.sub-nav dd a{color:rgba(255,255,255,.7)}
+.sub-nav dd a:hover{color:#FC0}
+.nav-menu{width:100%;overflow:hidden;background-color:#F7FBFB;box-shadow:inset 0 -1px 0 #e3e3e3}
+.nav-menu ul{display:block;margin:0 auto;padding:0}
+.nav-menu ul li{float:left;width:20%;list-style:none}
+.nav-menu ul li:first-child a{border-left:1px solid #e3e3e3}
+.nav-menu ul a{color:#555;width:100%;font-size:16px;text-transform:uppercase;padding:20px 0;float:left;text-align:center;border-right:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;background-color:#F7FBFB;letter-spacing:.5px;transition:all .2s ease-in-out}
+.nav-menu ul a:hover{color:#F86539;background-color:#FFF}
+.nav-menu ul .active a{color:#F86539;font-weight:700;background-color:#FFF;border-bottom:1px solid #FFF}
+.nav-menu ul a:after{content:"";clear:both}
+.slideBox{position:absolute;top:0;width:100%}
+.slideBox .hd{width:100%;height:25px;overflow:hidden;position:absolute;bottom:20px;z-index:1000}
+.slideBox .hd ul{text-align:center;width:100%}
+.slideBox .hd ul li{display:inline-block;width:12px;height:12px;border-radius:50%;border:1px solid #fff;cursor:pointer}
+.slideBox .hd ul li.on{background:#fff;color:#fff}
+.slideBox .bd{height:670px;position:relative;width:100%;overflow:hidden}
+.slideBox .bd li{height:670px;width:100%}
+.slideBox .item{height:670px}
+.gaofang-banner-bg{background:url(../images/gaofang-banner-bg.svg) no-repeat;background-size:65%;background-position:center center;height:845px}
+.item .container p.banner-title{color:#fff;-webkit-font-smoothing:initial;font-size:50px;line-height:55px}
+.item .container p.banner-title span{font-size:36px;margin-top:8px}
+.item .container ul.banner-slogan{margin-top:10px;left:0!important;width:487px!important}
+.item .container ul.banner-slogan li{font-size:15px;color:rgba(255,255,255,.9);line-height:28px;height:auto;left:0!important;width:auto!important}
+.item .container .col-sm-7{width:58.33333333%;float:left}
+.item .container .col-sm-5{width:41.66666667%;float:left}
+.free-use-btn.btn-white{padding:0 35px;line-height:36px;font-size:14px;display:inline-block;font-weight:600;cursor:pointer;transition:all .2s ease-in-out;border:1px rgba(255,255,255,.5) solid;color:#fff;margin-top:20px;border-radius:3px}
+.free-use-btn.btn-white:hover{border-color:#fff}
+.slideBox .next,.slideBox .prev{position:absolute;left:3%;top:50%;margin-top:-25px;display:block;width:32px;height:40px;background:url(../images/slider-arrow.png) -110px 5px no-repeat;filter:alpha(opacity=50);opacity:.5;transform:scale(.6)}
+.slideBox .next{left:auto;right:3%;background-position:8px 5px}
+.slideBox .next:hover,.slideBox .prev:hover{filter:alpha(opacity=100);opacity:1}
+.slideBox .prevStop{display:none}
+.slideBox .nextStop{display:none}
+.index-tuijian{padding:100px 0 50px 0}
+.index-tuijian .col-xs-3{padding:0 10px;width:25%;float:left}
+.index-tuijian .col-xs-3 .index-bq-one ul{padding-left:0}
+.index-tuijian .col-xs-3 .index-bq-one ul li{list-style:none;line-height:30px;font-size:13px}
+.index-tuijian .col-xs-3 .index-bq-one ul li span{font-size:15px;margin-bottom:10px;padding-top:10px}
+.index-tui-new .new-mj{position:absolute;right:15px;top:5px;background:linear-gradient(70deg,#ffa909 3%,#ff9d06 55%,#ff9102 91%)!important;padding:0 5px;color:#fff;height:16px;line-height:14px;border-radius:8px 0 8px 0;font-size:6px}
+.index-tuijian .col-xs-3 .index-bq-one ul li span b{color:#1e88e5}
+.index-tuijian .col-xs-3 .index-bq-one{border:1px #efefef solid;padding:15px 10px 5px 15px}
+.index-tuijian .col-xs-3 .index-bq-one{border-top:2px #1e88e5 solid;overflow:hidden}
+.index-tuijian .col-xs-3 .col-xs-5{width:41.66666667%;padding-left:0;float:left;position:relative;min-height:1px;padding-right:15px}
+.index-tuijian .col-xs-3 .col-xs-7{width:58.33333333%;padding-right:0;float:left}
+.index-tui-new{position:relative}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">   
+<title>签到</title>
+<link rel="stylesheet" href="css/bootstrap3/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="banner2"><img src="images/banner.jpg" class="img-responsive"></div>
+  <div id="fromBox" class="fromBox">
+
+        <div class="from">
+          
+            <input type="tel" id="telphone" placeholder="输入手机号">
+            <div class="clearfix">
+                <input type="text" placeholder="填写验证码">
+                <button id="btn-getcode" class="btn2">获取验证码</button>
+            </div>
+            <div class="sorrytext"></div>
+        </div>
+
+        <button id="btn-lq" class="btn3">确定</button>
+
+    </div>
+
+
+
+<div class="pt10lr10 mt10">
+	<div class="pline"></div>
+	<div class="prizebox">
+		<div class="ptitle"><strong>中奖榜单</strong><span class="pull-right font12">累计<span class="text-red">58</span>人中奖</span></div>
+		<div class="prizelistwrap" id="demo" style="position:relative;">
+			<div class="prizelist" id="demo1">
+			    <div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">17:55:30</div>
+				</div>
+				<div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">18:00:00</div>
+				</div>
+				<div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">23:55:30</div>
+				</div>
+				<div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">10:55:30</div>
+				</div>
+			    <div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">11:35:20</div>
+				</div>
+				<div class="clearfix pb10">
+					<div class="col-xs-5 clearPadding">183*****819</div>
+					<div class="col-xs-4 clearPadding text-red">300M流量</div>
+					<div class="col-xs-3 clearPadding">17:55:32</div>
+				</div>	
+			</div>
+			<div class="prizelist" id="demo2"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+var speed=40;
+var demo=document.getElementById("demo"); 
+var demo2=document.getElementById("demo2"); 
+var demo1=document.getElementById("demo1"); 
+demo2.innerHTML=demo1.innerHTML;
+function Marquee(){ 
+	if(demo2.offsetTop-demo.scrollTop<=0) 
+		demo.scrollTop-=demo1.offsetHeight;
+	else{ 
+		demo.scrollTop++;
+	}
+}
+console.log(demo.scrollTop); 
+MyMar=setInterval(Marquee,speed)  
+
+
+     //获取验证码
+        var waitCode=60;
+        function time(o) {
+            if (waitCode == 0) {
+                o.removeAttr("disabled");
+                o.text("获取验证码");
+                waitCode = 2;
+            } else {
+                o.attr("disabled","");
+                o.text("重新发送(" + waitCode + ")");
+                waitCode--;
+                setTimeout(function() {
+                    time(o)
+                },1000);
+            }
+        }
+        $("#btn-getcode").on('click', function(){
+            time($(this));
+        });
+
+        //登记
+        $("#btn-lq").on('click', function(){
+
+			var text2=$("#telphone").val();
+		if(text2 !="" && /^1[34578]\d{9}$/.test(text2)){
+		     	$(location).attr('href', 'ttqd.html');
+	
+
+			return true;
+		
+	    }else if(text2 =="" ){
+			$(".sorrytext").show();
+			$(".sorrytext").text("请输入手机号码");
+			return false;
+	    }else{
+			$(".sorrytext").show();
+			$(".sorrytext").text("手机号码错误");
+		    return false;
+	    }
+			
+			
+			
+			
+        });
+
+
+</script>
+</body>
+</html>

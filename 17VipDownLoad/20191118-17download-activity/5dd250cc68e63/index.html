@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="thiscss.css">
+    <script src="js/vue.js"></script>
+    <title>抽奖赢好礼</title>
+
+</head>
+
+<body>
+    <div id="page">
+        <div class="pond-head" v-on:click="init">
+            <img src="image/pond-head.png" alt="">
+        </div>
+        <div class="container-out">
+            <div class="container-in">
+                <div class="content-out" v-for="(box,index) in list"
+                    :style="{left:box.left+'px',top:box.top+'px','background-color':index==indexSelect?colorAwardSelect:colorAwardDefault}">
+                    <img class="pond-name-img" :src="box.image_url" alt="">
+                    <div class="pond-name">{{box.name}}</div>
+                </div>
+            </div>
+            <div class="start-btn" v-on:click="startBtn">
+                <img src="image/pond-button.png" style="height:80px;width:100%;" alt="">
+                <img src="image/pond-cj.png" :style="{'top':btntop+'px'}"
+                    style="position:absolute;left:5px;height:68px;width:89px;top:0;" alt="">
+            </div>
+            <div class="circle" v-for="(item,index) in circleList"
+                :style="{'top':item.topCircle+'px','left':item.leftCircle+'px','background-color':index%2==0?colorCircleFirst:colorCircleSecond}">
+            </div>
+        </div>
+        <div class="prize" v-show="prize==1">
+            <div class="prize-box">
+                <img class="prize-img" src="image/pond-success.png" alt="">
+                <div class="prize-msg">
+                    <div>恭喜</div>
+                    <div>抽中{{prize_name}}</div>
+                    <div class="continue" v-on:click="conTinue">继续抽奖</div>
+                </div>
+            </div>
+        </div>
+        <div class="prize" v-show="prize==2">
+            <div class="prize-box">
+                <img class="prize-img2" src="image/pond-empty.png" alt="">
+                <div class="prize-msg">
+                    <div>谢谢参与</div>
+                    <div>再换个姿势抽奖</div>
+                    <div class="continue" v-on:click="conTinue">继续抽奖</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="men" v-show="men"></div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#page',
+            data: {
+                list: [
+                    { id: 1, type: 1, name: '十元代金卷', image_url: 'image/djj.jpg' },
+                    { id: 2, type: 2, name: '谢谢参与', image_url: 'image/djj.jpg' },
+                    { id: 3, type: 1, name: '笔记本电脑', image_url: 'image/djj.jpg' },
+                    { id: 4, type: 1, name: '20元优惠券', image_url: 'image/djj.jpg' },
+                    { id: 5, type: 1, name: '500积分', image_url: 'image/djj.jpg' },
+                    { id: 6, type: 1, name: '100元现金', image_url: 'image/djj.jpg' },
+                    { id: 7, type: 1, name: '健身卡一张', image_url: 'image/djj.jpg' },
+                    { id: 8, type: 2, name: '谢谢参与', image_url: 'image/djj.jpg' },
+                ],
+                circleList: [],
+                colorCircleFirst: "#F12416",
+                colorCircleSecond: "#FFFFFF",
+                colorAwardDefault: "#F5F0FC",
+                colorAwardSelect: "#ffe400",
+                btntop: 0,//按钮的样式
+                time: '',//定时器
+                indexSelect: 0,//奖品下标
+                lottert: 0,//中奖下标
+                prize:0,//是否中奖
+                prize_name:'',//奖品名字
+                men:false
+            },
+            created() {
+                this.init();
+            },
+            methods: {
+                init: function () {
+                    var ts = this;
+                    var list = this.list;
+                    var left = 9;
+                    var top = 9;
+
+                    for (var i = 0; i < 8; i++) {
+                        if (i == 0) {
+                            left = 9;
+                            top = 9;
+                        } else if (i < 3 && i != 0) {
+                            top = top;
+                            left = left + 98 + 4;
+                        } else if (i >= 3 && i < 5) {
+                            left = left;
+                            top = top + 79 + 4;
+                        } else if (i >= 5 && i < 7) {
+                            left = left - 98 - 4;
+                            top = top;
+                        } else if (i >= 7 && i < 8) {
+                            left = left;
+                            top = top - 79 - 4;
+                        }
+                        list[i].top = top;
+                        list[i].left = left;
+                    }
+                    this.list = list;
+                    var cleft = 4;//e
+                    var ctop = 4;//a
+                    var dian = [];
+                    for (var j = 0; j < 24; j++) {
+                        if (j == 0) {
+                            cleft = 4;
+                            ctop = 4;
+                        } else if (j < 6) {
+                            ctop = 2;
+                            cleft += 55;
+                        } else if (j == 6) {
+                            ctop = 2;
+                            cleft = 330;
+                        } else if (j < 12) {
+                            ctop += 46;
+                            cleft = 331.5;
+                        } else if (j == 12) {
+                            ctop = 272.5;
+                            cleft = 330;
+                        } else if (j < 18) {
+                            ctop = 275;
+                            cleft -= 55;
+                        } else if (j == 18) {
+                            ctop = 273;
+                            cleft = 5;
+                        } else {
+                            if (!(j < 24)) return;
+                            ctop -= 46, cleft = 2.5;
+                        }
+                        dian.push({
+                            topCircle: ctop,
+                            leftCircle: cleft
+                        })
+                    }
+
+                    this.circleList = dian;
+                    setInterval(function () {
+                        if (ts.colorCircleFirst == "#FFFFFF") {
+                            ts.colorCircleFirst = "#F12416";
+                            ts.colorCircleSecond = "#FFFFFF";
+                        } else {
+                            ts.colorCircleFirst = "#FFFFFF";
+                            ts.colorCircleSecond = "#F12416";
+                            ts.btntop = 0;
+                        }
+                    }, 900)
+                    this.time = setInterval(function () {
+                        if (ts.btntop == 0) {
+                            ts.btntop = -3;
+                        } else {
+                            ts.btntop = 0;
+                        }
+                    }, 900)
+                },
+                startBtn: function (e) {
+                    clearInterval(this.time);
+                    this.men=true;
+                    this.btntop = 0;
+                    this.lottert = 0;
+                    var ts = this;
+                    var i = this.indexSelect;
+                    var list = this.list;
+                    var time = null;
+                    var s = 0;
+
+                    time = setInterval(function () {
+                        i++;
+                        i %= 8;
+                        s += 30;
+                        ts.indexSelect = i;
+                        if (ts.lottert > 0 && i + 1 == ts.lottert) {
+                            clearInterval(time);
+                            ts.time = setInterval(function () {
+                                if (ts.btntop == 0) {
+                                    ts.btntop = -3;
+                                } else {
+                                    ts.btntop = 0;
+                                }
+                            }, 900);
+                            if (list[i].type == 2) {
+                                ts.prize = 2;
+                            } else {
+                                ts.prize_name = list[i].name;
+                                ts.prize = 1;
+                            }
+                            
+                        }
+                    }, 200 + s);
+
+                    setTimeout(function () {
+                        ts.lottert = ts.randomNum(1, 8);
+                    }, 2e3);
+
+                },
+                randomNum: function (minNum, maxNum) {
+                    switch (arguments.length) {
+                        case 1:
+                            return parseInt(Math.random() * minNum + 1, 10);
+                            break;
+                        case 2:
+                            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                            break;
+                        default:
+                            return 0;
+                            break;
+                    }
+                },
+                conTinue:function(){
+                    this.men=false;
+                    this.prize=0;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

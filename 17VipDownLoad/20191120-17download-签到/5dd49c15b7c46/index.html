@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<div class="kaoqing" id="demo1">
+		</div>
+		<button id="getdata">获得数据</button>
+		<div  id="answer"></div>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/drag4.js"></script>
+		<script>
+			$(function() {
+				//开始时间和结束时间的日期应该是同一天，不支持跨天,
+				//日期格式要标准，yyyy-MM-dd hh:mm:ss
+//					console.log(new Date("2018-03-07 12:30:00"))
+				var data3 = [{
+						startime: '2018-03-07 01:30:00',
+						endtime: '2018-03-07 23:00:00'
+					},
+					{
+						startime: '2018-03-08 01:30:00',
+						endtime: '2018-03-08 05:30:00'
+					}, {
+						startime: '2018-03-05 16:30:00',
+						endtime: '2018-03-05 20:30:00'
+					}, {
+						startime: '2018-03-05 01:30:00',
+						endtime: '2018-03-05 02:00:00'
+					}
+				];
+				data3=[];
+				var juicy = $("#demo1").initJuicy({
+					width: 800,
+					mondayDate: '2018-03-05',
+					timedata: data3,
+					status: true, //false表示不能编辑，true可以编辑
+				});
+				$("#getdata").click(function() {
+					var backdata = juicy.getdata();
+					console.log(backdata);
+					$("#answer").html(JSON.stringify(backdata))
+				})
+			})
+		</script>
+	</body>
+
+</html>

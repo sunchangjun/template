@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts用户统计表格</title>
+    <link rel="import" href="http://localhost:63343/web_template/easy-ui/templates/base/basehead.html">
+</head>
+<body>
+<div id="main" style="width: 1800px;height:800px;">
+
+</div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'),'light');
+    var times=[];    //类别数组（实际用来盛放X轴坐标值）
+    var newuser=[];//新用户
+    var refilluser=[];//续订用户
+    var returnuser=[];//老用户回归
+    $.ajax({
+        type : "post",
+        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url : "http://localhost:9999/findAllIptvUserOrderStatis",
+        data : {},
+        dataType : "json",//返回数据形式为json
+        processData:false,
+        contentType:false,
+        success : function(result) {
+            var logdata=  JSON.stringify(result);
+            console.log(logdata);
+            //请求成功时执行该函数内容，result即为服务器返回的json对象
+            var rows=result.rows;
+            if (rows) {
+                for(var i=0;i<rows.length;i++){
+                    times.push(rows[i].time);    //挨个取出类别并填入类别数组
+                    newuser.push(rows[i].new_user);//挨个取出销量并填入销量数组
+                    refilluser.push(rows[i].refill_user);
+                    returnuser.push(rows[i].return_user);
+                }
+                myChart.hideLoading();    //隐藏加载动画
+                myChart.setOption({
+                    title: {
+                        text: '异步数据加载示例'
+                    },//加载数据图表
+                    tooltip: {},
+                    legend: {
+                        data:['新用户','续订用户','老用户回归']
+                    },
+                    xAxis: {
+                        data: times
+                    },
+                    yAxis: {},
+                    series: [{
+                        // 根据名字对应到相应的系列
+                        name: '新用户',
+                        type: 'bar',
+                        data: newuser
+                    },{
+                        // 根据名字对应到相应的系列
+                        name: '续订用户',
+                        type: 'bar',
+                        data: refilluser
+                    },{
+                        // 根据名字对应到相应的系列
+                        name: '老用户回归',
+                        type: 'bar',
+                        data: returnuser
+                    }]
+                });
+
+            }
+
+        },
+        error : function(errorMsg) {
+            //请求失败时执行该函数
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    })
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>全屏模板左右切换</title>
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <script type="text/javascript" src="js/swiper.min.js"></script>
+    </head>
+    <body>
+
+        <!--
+
+             * 17素材vip建站专区模块代码
+             * 详尽信息请看官网：http://www.17sucai.com/pins/vip
+             *
+             * Copyright , 温州易站网络科技有限公司版权所有
+             *
+             * 请尊重原创，未经允许请勿转载。
+             * 在保留版权的前提下可应用于个人或商业用途
+
+		-->
+
+        <div class="banner-box">
+            <div class="banner-top"></div>
+            <div class="banner-title">
+                <h1>选择一个漂亮的模板</h1>
+            </div>
+            <div class="banner-text">
+                <p>别具一格的不仅是风景，更是您的官方网站</p>
+            </div>
+            <div class="banner-top-one"></div>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper-slide-center none-effect">
+                        <a href="javascript:;">
+                            <img src="images/banner1.jpg" about="" title="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:;">
+                            <img src="images/banner2.jpg" about="" title="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:;">
+                            <img src="images/banner3.jpg" about="" title="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:;">
+                            <img src="images/banner4.jpg" about="" title="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:;">
+                            <img src="images/banner5.jpg" about="" title="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="javascript:;">
+                            <img src="images/banner6.jpg" about="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="banner-arrow">
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+
+        </div>
+        <div class="banner-button">
+            <a href="javascript:;" class="do-btn banner-button-btn">&nbsp;更多模板 &nbsp;</a>
+        </div>
+
+        <script type="text/javascript">
+
+            window.onload = function() {
+                var swiper = new Swiper('.swiper-container',{
+                    autoplay: false, //是否自动滚动
+                    speed: 500,      //滚动速速
+                    autoplayDisableOnInteraction: true,
+                    loop: true,
+                    centeredSlides: true,
+                    slidesPerView: 3, //当前选中
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    prevButton: '.swiper-button-prev', // 左右切换
+                    nextButton: '.swiper-button-next', // 左右切换
+                    onInit: function(swiper) {
+                        swiper.slides[3].className = "swiper-slide swiper-slide-active"; //当前选中 状态
+                    },
+                    breakpoints: {
+                        100: {
+                            slidesPerView: 0,
+                        }
+                    }
+                });
+            }
+
+        </script>
+		
+		
+    </body>
+</html>

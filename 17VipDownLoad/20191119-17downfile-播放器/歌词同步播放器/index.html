@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>音乐播放器</title>
+
+<link rel="stylesheet" href="css/style.css"/>
+
+</head>
+<body>
+
+	<div class="container" id="container">
+		<div class="music">
+			<div class="photo">
+				<div class="photo_pic" id="photo_pic"><div class="cd"></div></div>
+				<div class="choose" style="display: none">
+					<div class="choose_obj choose_like" >
+						<div class="icon" id="icon1">
+							&#xe607;
+						</div>
+
+					</div>
+					<div class="choose_obj choose_share">
+						<div class="icon" id="icon2">
+							&#xe675;
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="progress">
+
+				<div class="progress_obj clear">
+					<time class="">00:00</time>
+					<div class="progress_bar" id="progress_bar" style=""><div class="progress_cube" id="progress_cube"></div></div>
+                    <time class="">00:00</time>
+				</div>
+				<div class="progress_obj clear">
+					<div class="ctrl_btn">
+						<div id="prev_btn" class="prev_btn btn">&#xe60d;</div>
+						<div id="play_btn" class="play_btn btn">&#xe60e;</div>
+						<div id="next_btn" class="next_btn btn">&#xe60b;</div>
+					</div>
+					<div class="ctrl_info">
+						<div class="vol">&#xe979;<div class="vol_bar" id="vol_bar"><div class="vol_cube" id="vol_cube"></div></div></div>
+						<div class="list" id="list">&#xe908;<div id="list_con"><p>fffffffff</p><p>fffffffff</p><p>fffffffff</p></div></div>
+					</div>
+					<audio src="music/m.mp3"></audio>
+				</div>
+			</div>
+		</div>
+		<div class="lyric">
+			<div class="lyric_tit" id="lyric_tit"></div>
+			<div class="lyric_con" id="lyric_con"><div id="lyric_txt"></div></div>
+		</div>
+	</div>
+
+
+	<script src="js/index.js"></script>
+	
+</body>
+</html>	
