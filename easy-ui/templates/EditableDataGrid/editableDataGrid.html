@@ -9,7 +9,7 @@
 
 <table id="tt"  style="width:1000px;height:600px" title="Editable DataGrid" singleSelect="true">
 </table>
-
+<input type="file" id="file" />
 <script type="text/javascript">
 
     $.extend($.fn.validatebox.defaults.rules, {
@@ -26,6 +26,18 @@
 
             },
             message: '请输入正确的日期'
+        } ,
+        isboolean: {
+            validator: function(value, param){//value 为输入框的值，param为传入的对比标准
+                var regu = /^([1-2][0-9][0-9][0-9]-[0-1]{0,1}[0-9]-[0-3]{0,1}[0-9])\s(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
+                var re = new RegExp(regu);
+                if (re.test(value)) {
+                    return true;
+                }else{
+                    return false;
+                }
+            },
+            message: '请输入true或false'
         }
     });
 
@@ -41,9 +53,9 @@
         url: 'http://127.0.0.1:8100/sun/findAllIptvConfig',
         columns: [[
             {field: 'ck', checkbox: false},
-            {field: 'id', title: 'id', width: 200},
+            {field: 'id', title: 'id', width: 200,required: true},
             {field: 'key', title: 'key', width: 400, editor: 'text'},
-            {field: 'value', title: 'value', width: 400, editor: 'text'},
+            {field: 'value', title: 'value', width: 400, editor: 'text',required: true},
             {field: 'data', title: 'value', width: 400,editor:{
                     type:'validatebox',
                     options:{
@@ -101,6 +113,12 @@
                         $("#tt").datagrid("deleteRow", rowNumber);
 
                     }
+                }
+            },{
+                text: '上传图片',
+                iconCls: 'icon-no',
+                handler: function () {
+                    $("#file").click();
                 }
             }
             ],

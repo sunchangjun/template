@@ -6,7 +6,7 @@
    <style>
         #dev1 {
 
-            background: red;
+            /*background: red;*/
             width: 100%;
             height: 100px;
             margin: 0 auto;
@@ -14,7 +14,7 @@
         }
         #dev2 {
             position:relative;
-            background: #40beff;
+            /*background: #40beff;*/
             width: 20%;
             height: 800px;
             margin: 0 auto;
@@ -24,7 +24,7 @@
         }
 
         #dev3 {
-            background: #ff39f4;
+            /*background: #ff39f4;*/
             width: 80%;
             height: 800px;
             margin: 0 auto;
@@ -44,5 +44,32 @@
     <dev id="dev3" class="devclass3">
         第三个DEV
     </dev>
+<script type="text/javascript">
+
+    //平台、设备和操作系统
+    var system = {
+        win: false,
+        mac: false,
+        xll: false,
+        ipad:false
+    };
+    //检测平台
+    var p = navigator.platform;
+    console.log(JSON.stringify(p));
+    system.win = p.indexOf("Win") == 0;
+    system.mac = p.indexOf("Mac") == 0;
+    system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+    system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+    //跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+    if (system.win || system.mac || system.xll||system.ipad) {
+        console.log(1);
+        // window.location.href = "http://www.jdpatro.com/3g/";
+    } else {
+        console.log(2);
+        window.location.href = "http://www.jdpatro.com/3g/";
+    }
+
+
+</script>
 </body>
 </html>
